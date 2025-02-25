@@ -1,0 +1,69 @@
+@import '../Styles.scss';
+
+.login-container {
+  @include flex-row;
+  width: 100%;
+  background-color: rgb(228, 243, 229);
+  height: 100vh;
+  justify-content: center;
+
+  .main {
+    width: 500px;
+    background-color: $main;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 10px;
+    @include flex-column;
+    justify-content: center;
+
+    label {
+      @include flex-column;
+      color: $black;
+      font-size: 2 * $md;
+      margin: 2 * $md;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.5s ease-in-out;
+    }
+
+    input {
+      @include flex-row;
+      width: 20 * $lg;
+      height: $lg;
+      background: $bgColor;
+      padding: $sm;
+      border: none;
+      outline: none;
+      border-radius: $xs;
+    }
+
+    .input-box {
+      margin-bottom: $lg;
+    }
+
+    .buttons {
+      @include flex-column;
+
+      Button {
+        margin-top: $xs;
+      }
+    }
+
+    .error-text {
+      color: red;
+      margin: 2*$xs 0;
+    }
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .login-container {
+    .main {
+      width: 100%;
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+}

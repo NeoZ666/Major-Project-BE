@@ -1,0 +1,77 @@
+@import "../../Styles.scss";
+
+.response-form {
+  overflow-y: scroll;
+  width: 100%;
+
+  .section {
+    margin: $sm $xl;
+    @include flex-column;
+    justify-content: flex-start;
+    width: 90%;
+
+    .response-box {
+
+      .form-top-name {
+        box-sizing: border-box;
+        font-size: $xl;
+        font-weight: 400;
+        line-height: $xl;
+        line-height: 135%;
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #f4f4f9;
+        color: black;
+        height: $xl+$xs;
+        margin-bottom: $xs;
+      }
+
+      .form-top-desc {
+        @extend .form-top-name;
+        font-size: $sm;
+        height: $lg;
+        color: $black;
+      }
+    }
+
+
+    .response-box {
+      display: flex;
+      justify-content: flex-start;
+      background-color: $main;
+      width: 100%;
+      margin-bottom: $sm;
+      padding: $md;
+      border-radius: 2 * $xs;
+      box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
+      .saved-questions {
+        background-color: $main;
+        border-radius: 2 * $xs;
+        padding: $lg 2px;
+        text-transform: capitalize;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .question-text {
+          font-size: $md;
+          font-weight: 400;
+          line-height: 24px;
+          padding-bottom: 2 * $xs;
+          letter-spacing: 0.1;
+          word-break: break-all;
+        }
+      }
+
+      .display-options {
+        margin-top: $md;
+      }
+    }
+  }
+}
+
+.add-border-top {
+  border-top: 2*$xs solid rgb(76, 175, 80);
+}
