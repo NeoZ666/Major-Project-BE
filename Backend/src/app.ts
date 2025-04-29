@@ -52,7 +52,9 @@ app.use(questionsRouter);
 //collecting user responses
 app.use(userResponseRouter);
 
-mongoose.connect(process.env.MONGODB_URI!)
+const MONGODB_URI = "mongodb+srv://neoz:<db_password>@cluster0.yijs5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+mongoose.connect(MONGODB_URI!)
   .then(() => {
     logger.info(REQUEST_SUCCESS_MESSAGE.DATABASE_CONNECTED_SUCCESSFULLY);
     const server = app.listen(process.env.PORT || 9000, () => {
