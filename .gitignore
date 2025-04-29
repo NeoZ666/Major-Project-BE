@@ -1,1 +1,7 @@
 /AI/.env
+/Backend/node_modules
+/Backend/package-lock.json
+/Backend/.env
+/Frontend/node_modules
+/Frontend/package-lock.json
+/Frontend/.env

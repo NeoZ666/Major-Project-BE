@@ -1,14 +1,19 @@
-
 export const corsConfig = {
-  origin: '*',
+  origin: true, // Allow all origins temporarily for debugging
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     "Authorization",
     "X-Requested-With",
     "Content-Type",
-    "x-auth-token"
+    "x-auth-token",
+    "Access-Control-Allow-Origin",
+    "Access-Control-Allow-Headers"
   ],
-  maxAge: 86400, // NOTICE: 1 day
-  credentials: false
+  exposedHeaders: ["Authorization"],
+  maxAge: 86400,
+  credentials: true,
+  optionsSuccessStatus: 200,
+  preflightContinue: false
 };
 
 export const enum REQUEST_SUCCESS_MESSAGE {
