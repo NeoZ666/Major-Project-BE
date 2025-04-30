@@ -23,6 +23,7 @@ const mongodb_1 = require("mongodb");
 const pino_1 = require("./common/pino");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const mongoose_1 = __importDefault(require("mongoose"));
 // Load environment variables
 dotenv_1.default.config();
 // Initialize MongoDB client
@@ -37,21 +38,20 @@ const AUTHORISATION = "Authorization";
 const SOCKET_CONNECTED = "Socket connected: ";
 const app = (0, express_1.default)();
 // Middleware setup
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+//   // Handle preflight requests
+//   if (req.method === 'OPTIONS') {
+//     res.sendStatus(200);
+//   } else {
+//     next();
+//   }
+// });
+app.use((0, cors_1.default)(constants_1.corsConfig));
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    // Handle preflight requests
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(200);
-    }
-    else {
-        next();
-    }
-});
-app.use((0, cors_1.default)(constants_1.corsConfig));
 // Authentication middleware
 app.use((req, res, next) => {
     const authHeader = req.get(AUTHORISATION);
@@ -83,6 +83,8 @@ app.use(user_response_1.default);
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            yield mongoose_1.default.connect(process.env.MONGODB_URI);
+            pino_1.logger.info("Moongoose connected successfully..." /* REQUEST_SUCCESS_MESSAGE.DATABASE_CONNECTED_SUCCESSFULLY */);
             // Connect to MongoDB
             yield mongoClient.connect();
             yield mongoClient.db("admin").command({ ping: 1 });

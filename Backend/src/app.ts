@@ -9,6 +9,7 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 import { logger } from './common/pino';
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
 // Load environment variables
 dotenv.config();
@@ -27,22 +28,24 @@ const SOCKET_CONNECTED = "Socket connected: ";
 const app = express();
 
 // Middleware setup
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
   
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
+//   // Handle preflight requests
+//   if (req.method === 'OPTIONS') {
+//     res.sendStatus(200);
+//   } else {
+//     next();
+//   }
+// });
 
 app.use(cors(corsConfig));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // Authentication middleware
 app.use((req: express.Request & { isUserAuth?: boolean; userId?: string }, res: express.Response, next: express.NextFunction) => {
@@ -76,6 +79,10 @@ app.use(userResponseRouter);
 
 async function startServer() {
   try {
+
+    await mongoose.connect(process.env.MONGODB_URI!);
+    logger.info(REQUEST_SUCCESS_MESSAGE.DATABASE_CONNECTED_SUCCESSFULLY);
+
     // Connect to MongoDB
     await mongoClient.connect();
     await mongoClient.db("admin").command({ ping: 1 });
